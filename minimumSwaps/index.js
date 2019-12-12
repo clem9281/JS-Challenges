@@ -23,7 +23,6 @@ function minimumSwaps(arr) {
         let temp = inOrderArr[idealPosition];
         inOrderArr[idealPosition] = element;
         inOrderArr[currentPosition] = temp;
-        console.log({ dict, inOrderArr });
         swapped = true;
         swaps++;
       }
