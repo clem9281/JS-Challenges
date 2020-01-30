@@ -1,5 +1,3 @@
-let fs = require("fs");
-
 function Node(value) {
   this.value = value;
   this.next = null;
@@ -38,6 +36,7 @@ Queue.prototype.dequeue = function() {
 
 function bfs(numNodes, startNode, nodes) {
   let graph = {};
+  // load graph
   for (let element of nodes) {
     if (!graph[element[0]]) {
       graph[element[0]] = new Set();
@@ -48,15 +47,16 @@ function bfs(numNodes, startNode, nodes) {
     graph[element[0]].add(element[1]);
     graph[element[1]].add(element[0]);
   }
-  let unvisited = new Set();
+  // the nodes array just has our edges, we should have nodes for 1 - numNodes, the ones not in the edges array are disconnected components, we still need those element in our graph
   for (let i = 1; i <= numNodes; i++) {
-    unvisited.add(i);
     if (!graph[i]) {
       graph[i] = new Set();
     }
   }
   let distances = new Array(numNodes - 1);
+  // bft to get the shortest paths from start to whatever node
   let q = new Queue();
+  // visited will be a dict with each value as the distance of that node from start
   let visited = {};
   visited[startNode] = 0;
   q.enqueue(startNode);
@@ -69,6 +69,7 @@ function bfs(numNodes, startNode, nodes) {
       }
     }
   }
+  // our bft only got through our connected component, we still have disconnected nodes, but we know their distance is -1. Go from 1 to numNodes adding to our distance array, using count to keep track of index
   let count = 0;
   for (let i = 1; i <= numNodes; i++) {
     if (!visited.hasOwnProperty(i)) {
@@ -79,25 +80,20 @@ function bfs(numNodes, startNode, nodes) {
       count++;
     }
   }
-  console.log(...distances);
-  // return distances
+  // console.log(...distances);
+  return distances;
 }
 function processData(input) {
   //Enter your code here
   let inputArr = input.split("\n");
-  //   console.log(inputArr);
   let numOfCases = Number(inputArr[0]);
-  // let cases = new Array(numOfCases).fill([])
-  // let count = 0
-  // let numNodesForCase = new Array(numOfCases)
+  // the first element of input is the number of cases, then after that the first set of numbers is the number of nodes and edges (we only care about number of nodes for this example), lookahead keeps track of where to look for that information. On our first iteration that is 1, but after that, if there is more than one case, we know we will find that info after the element that only has one number, not two
   let lookahead = 1;
-  // let startNodes = new Array(numOfCases)
   let numOfNodes = null;
   let caseHolder = [];
   let answer = new Array(numOfCases);
   let count = 0;
   for (let i = 1; i < inputArr.length; i++) {
-    // console.log(inputArr[i].split(" ").length);
     let element = inputArr[i].split(" ");
     if (i === lookahead) {
       numOfNodes = Number(inputArr[i].split(" ")[0]);
@@ -110,12 +106,7 @@ function processData(input) {
       caseHolder.push(element.map(el => Number(el)));
     }
   }
-  // return answer
+  return answer;
 }
 
-fs.readFile("./test.txt", "utf8", function(err, contents) {
-  //   console.log({ contents });
-  processData(contents);
-});
-
-console.log("file did finish");
+module.exports = { processData };
