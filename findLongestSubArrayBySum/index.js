@@ -1,33 +1,41 @@
 function findLongestSubarrayBySum(s, arr) {
-  let prefixSum = new Array(arr.length);
-  let indexOfS = -1;
-  let dict = {};
-  for (let i = 0; i < arr.length; i++) {
-    let sum;
-    if (i === 0) {
-      prefixSum[i] = arr[i];
-      sum = arr[i];
-    } else {
-      sum = arr[i] + prefixSum[i - 1];
-      prefixSum[i] = sum;
-    }
-    if (sum === s) {
-      indexOfS = i;
-    }
-    dict[prefixSum[i]] = i;
+  let left = 0;
+  let right = 1;
+  let range = arr[0] + arr[1];
+  let answer = [-1];
+  let longestSubset = 0;
+  if (arr.length === 1 && arr[0] === s) {
+    return [1, 1];
+  } else if (arr.length === 1) {
+    return [-1];
   }
-  if (indexOfS >= 0) {
-    return [1, indexOfS + 1];
-  } else {
-    // hashmap two sum solution
-    for (let i = 0; i < prefixSum.length; i++) {
-      let dif = prefixSum[i] + s;
-      if (dict[dif]) {
-        return [i + 2, dict[dif] + 1];
+  while (left < arr.length - 1) {
+    if (range < s && right < arr.length - 1) {
+      right++;
+      range += arr[right];
+    } else if (range < s) {
+      return answer;
+    } else if (range > s) {
+      range -= arr[left];
+      left++;
+    }
+    if (range === s) {
+      // we have to look for extra zeroes to consume
+      while (arr[right + 1] === 0) {
+        right++;
+      }
+      if (right - left > longestSubset || longestSubset === 0) {
+        longestSubset = right - left;
+        answer = [left + 1, right + 1];
+      }
+      if (right < arr.length - 1) {
+        right++;
+        range += arr[right];
+      } else {
+        break;
       }
     }
   }
-  return [-1];
+  return answer;
 }
-
-// console.log(findLongestSubarrayBySum(468, arr));
+module.exports = { findLongestSubarrayBySum };
