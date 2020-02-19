@@ -1,4 +1,4 @@
-const { ListNode } = require("./list");
+const { ListNode } = require("../list");
 
 const { isListPalindrome } = require("./index");
 
