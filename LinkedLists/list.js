@@ -5,11 +5,15 @@ function ListNode(value) {
 
 ListNode.prototype.append = function(value) {
   const newNode = new ListNode(value);
-  this.next = newNode;
+  let current = this;
+  while (current.next) {
+    current = current.next;
+  }
+  current.next = newNode;
 };
 
-ListNode.prototype.asArray = function() {
-  let current = this;
+ListNode.prototype.asArray = function(head) {
+  let current = head;
   const arr = [];
   while (current) {
     arr.push(current.value);
