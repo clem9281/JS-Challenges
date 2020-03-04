@@ -1,4 +1,4 @@
-const { maxSubsetSum } = require("./recursiveSolution.js");
+const { maxSubsetSum } = require("./index");
 
 describe("maxSubsetSum", () => {
   it("should return the maximum sum achieved by a non adjacent sub array", () => {
