@@ -9,7 +9,7 @@ function maxSubsetSum(arr) {
   if (n === 1) {
     return arr[0];
   }
-  // So we'll build up our cache from the bottom up using the same sort of logic in the recursive problem
+  // So we'll build up our cache from the bottom up using the same sort of logic in the recursive problem (comments in the recursiveSolution file)
   // We will hold the best sums possible at each element's index in our cache
   // When we are at the first element of our array, the absolute highest total we could be at is the value of the first element
   cache[0] = arr[0];
