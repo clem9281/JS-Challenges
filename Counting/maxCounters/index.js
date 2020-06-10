@@ -8,10 +8,19 @@ function maxCounters(N, A) {
         max = counters[A[i] - 1];
       }
     } else {
-      counters = new Array(N).fill(max);
+      let left = 0;
+      let right = N - 1;
+      while (left <= right) {
+        counters[left] = max;
+        counters[right] = max;
+        right--;
+        left++;
+      }
     }
   }
   return counters;
 }
+
+maxCounters(5, [3, 4, 4, 6, 1, 4, 4]);
 
 module.exports = { maxCounters };
